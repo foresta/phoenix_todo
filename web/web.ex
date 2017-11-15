@@ -52,6 +52,7 @@ defmodule PhoenixTodo.Web do
       import PhoenixTodo.Router.Helpers
       import PhoenixTodo.ErrorHelpers
       import PhoenixTodo.Gettext
+      import PhoenixTodo.ViewHelper
     end
   end
 

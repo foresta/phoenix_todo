@@ -39,7 +39,8 @@ defmodule PhoenixTodo.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 4.0"},
-     {:bcrypt_elixir, "~> 1.0"}]
+     {:bcrypt_elixir, "~> 1.0"},
+     {:guardian, "~> 0.12.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

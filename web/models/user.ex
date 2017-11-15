@@ -1,6 +1,8 @@
 defmodule PhoenixTodo.User do
   use PhoenixTodo.Web, :model
 
+  require Logger
+
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
@@ -16,7 +18,7 @@ defmodule PhoenixTodo.User do
     struct
     |> cast(params, ~w(email), [])
     |> validate_format(:email, ~r/@/)
-    |> validate_required([:email, :password_hash])
+    |> validate_required([:email])
   end
 
   def registration_changeset(struct, params) do
@@ -24,10 +26,16 @@ defmodule PhoenixTodo.User do
     |> changeset(params)
     |> cast(params, ~w(password), [])
     |> validate_length(:password, min: 6)
+    |> validate_required(:password)
     |> put_password_hash()
   end
 
   defp put_password_hash(changeset) do
+  
+    Logger.info "put_password_hash"
+
+    IO.inspect changeset
+    
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
         put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))

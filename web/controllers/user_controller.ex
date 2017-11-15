@@ -2,6 +2,8 @@ defmodule PhoenixTodo.UserController do
   use PhoenixTodo.Web, :controller
   alias PhoenixTodo.User
 
+  require Logger
+
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.html", users: users)
@@ -15,12 +17,18 @@ defmodule PhoenixTodo.UserController do
 
   def create(conn, %{"user" => user_params}) do
     changeset = User.registration_changeset(%User{}, user_params)
+
+    IO.inspect changeset
+
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created!")
         |> redirect(to: user_path(conn, :index))
       {:error, changeset} ->
+
+        IO.inspect changeset
+
         conn
         |> render("new.html", changeset: changeset)
     end
