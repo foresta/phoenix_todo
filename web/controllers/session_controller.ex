@@ -1,6 +1,8 @@
 defmodule PhoenixTodo.SessionController do
   use PhoenixTodo.Web, :controller
 
+  require Logger
+
   def new(conn, _) do
     render conn, "new.html"
   end
@@ -8,7 +10,7 @@ defmodule PhoenixTodo.SessionController do
   def create(conn, %{"session" => %{"email" => user, "password" => pass}}) do
     case PhoenixTodo.Auth.login_by_email_and_pass(conn, user, pass, repo: Repo) do
       {:ok, conn} ->
-        logged_in_user = Guardian.Plug.current_resoure(conn)
+        logged_in_user = Guardian.Plug.current_resource(conn)
         conn
         |> put_flash(:info, "Innlogget")
         |> redirect(to: user_path(conn, :show, logged_in_user))
@@ -21,9 +23,13 @@ defmodule PhoenixTodo.SessionController do
   end
 
   def delete(conn, _) do
+
+    Logger.info "delete session" 
+
     conn
     |> Guardian.Plug.sign_out
     |> redirect(to: "/")
   end
 
 end
+

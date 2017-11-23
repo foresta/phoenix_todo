@@ -18,11 +18,10 @@ defmodule PhoenixTodo.UserController do
   def create(conn, %{"user" => user_params}) do
     changeset = User.registration_changeset(%User{}, user_params)
 
-    IO.inspect changeset
-
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
+        |> PhoenixTodo.Auth.login(user)
         |> put_flash(:info, "User created!")
         |> redirect(to: user_path(conn, :index))
       {:error, changeset} ->

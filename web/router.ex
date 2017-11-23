@@ -27,6 +27,7 @@ defmodule PhoenixTodo.Router do
     get "/", PageController, :index
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    #delete "/signout", SessionController, :delete, as: :signout
   end
 
   scope "/", PhoenixTodo do
